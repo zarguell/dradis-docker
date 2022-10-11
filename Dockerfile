@@ -17,10 +17,10 @@ COPY traefik.tar.gz /opt/traefik.tar.gz
 USER root
 
 RUN dnf update -y --nodocs && \
-    dnf install -y libpq libsqlite3x git gem ruby
-		dnf clean all && \
-		rm -rf /var/cache/yum && \
-		dnf remove -y vim-minimal
+    dnf install -y libpq libsqlite3x git gem ruby && \
+    dnf clean all && \
+    rm -rf /var/cache/yum && \
+    dnf remove -y vim-minimal
 
 # clone dradis
 RUN git clone --depth=1 https://github.com/dradis/dradis-ce.git
