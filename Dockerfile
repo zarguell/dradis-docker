@@ -12,7 +12,7 @@ WORKDIR /opt/setup
 # Per hardening manifest guidance: https://repo1.dso.mil/dsop/dccscr/-/tree/master/hardening%20manifest
 
 # ----- OR ----- if installing without the hardening_manifest downloading things for us
-COPY traefik.tar.gz /opt/traefik.tar.gz
+# COPY traefik.tar.gz /opt/traefik.tar.gz
 
 USER root
 
