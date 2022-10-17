@@ -1,5 +1,5 @@
 ARG BASE_REGISTRY=docker.io
-ARG BASE_IMAGE=zarguell/ubi8
+ARG BASE_IMAGE=zarguell/ruby31
 ARG BASE_TAG=latest
 
 FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG}
@@ -21,6 +21,8 @@ RUN dnf update -y --nodocs && \
     dnf clean all && \
     rm -rf /var/cache/yum && \
     dnf remove -y vim-minimal
+
+USER 1001
 
 # clone dradis
 RUN git clone --depth=1 https://github.com/dradis/dradis-ce.git
