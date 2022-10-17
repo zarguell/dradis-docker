@@ -11,9 +11,6 @@ WORKDIR /opt/setup
 # ------------------------------------------------------------------------------------------------------------
 # Per hardening manifest guidance: https://repo1.dso.mil/dsop/dccscr/-/tree/master/hardening%20manifest
 
-# ----- OR ----- if installing without the hardening_manifest downloading things for us
-# COPY traefik.tar.gz /opt/traefik.tar.gz
-
 USER root
 
 RUN rpm --import "https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-8"
@@ -21,12 +18,10 @@ RUN rpm --import "https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-8"
 RUN dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm -y
 
 RUN dnf update -y --nodocs && \
-    dnf install -y libpq libsqlite3x git && \
+    dnf install -y libpq libsqlite3x git sqlite-devel postgresql-devel gcc gcc-c++ make ruby-devel xz patch python39 && \
     dnf clean all && \
     rm -rf /var/cache/yum && \
     dnf remove -y vim-minimal
-
-USER 1001
 
 # clone dradis
 RUN git clone --depth=1 https://github.com/dradis/dradis-ce.git
@@ -41,6 +36,10 @@ RUN gem install rake
 RUN gem install bundler
 
 RUN ruby bin/setup
+
+RUN chown -R 1001:1001 /dradis-ce
+
+USER 1001
 
 #Bind to all interfaces explicitly as the default is localhost only
 CMD ["bundle","exec","rails","server","-b","0.0.0.0"]
