@@ -16,8 +16,12 @@ WORKDIR /opt/setup
 
 USER root
 
+RUN rpm --import "https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-8"
+
+RUN dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm -y
+
 RUN dnf update -y --nodocs && \
-    dnf install -y libpq libsqlite3x git gem ruby && \
+    dnf install -y libpq libsqlite3x git && \
     dnf clean all && \
     rm -rf /var/cache/yum && \
     dnf remove -y vim-minimal
