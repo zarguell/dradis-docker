@@ -35,7 +35,7 @@ WORKDIR /dradis-ce
 RUN gem install rake
 RUN gem install bundler
 
-RUN ruby bin/setup
+RUN ruby /dradis-ce/bin/setup
 
 RUN chown -R 1001:1001 /dradis-ce
 
