@@ -4,8 +4,6 @@ ARG BASE_TAG=latest
 
 FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG}
 
-WORKDIR /opt/setup
-
 ## THIS IS Iron Bank version of Dockerfile to be submitted to Iron Bank repo for approval, do not spin this up locally
 
 # ------------------------------------------------------------------------------------------------------------
@@ -23,10 +21,9 @@ RUN dnf update -y --nodocs && \
     rm -rf /var/cache/yum && \
     dnf remove -y vim-minimal
 
-# clone dradis
-RUN git clone --depth=1 https://github.com/dradis/dradis-ce.git
+ADD dradis /dradis
 
-WORKDIR /dradis-ce
+WORKDIR /dradis
 
 #Can't set production without SSL
 #ENV RAILS_ENV=production
@@ -35,9 +32,9 @@ WORKDIR /dradis-ce
 RUN gem install rake
 RUN gem install bundler
 
-RUN ruby /dradis-ce/bin/setup
+RUN ruby ./bin/setup
 
-RUN chown -R 1001:1001 /dradis-ce
+RUN chown -R 1001:1001 /dradis
 
 USER 1001
 
