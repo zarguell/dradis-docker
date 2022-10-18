@@ -1,0 +1,116 @@
+<% @activities.each do |activity| %>
+
+  <%# Comment activities %>
+  <% if activity.trackable_type == 'Comment' %>
+
+    <% if activity.action == 'destroy' || activity.trackable.nil? %>
+      ActivitiesPoller.deleteComment(<%= activity.trackable_id %>)
+    <% elsif %w[create update].include?(activity.action) %>
+      <% comment = activity.trackable %>
+
+      var commentId = <%= comment.id %>,
+          commentableId = <%= comment.commentable.id %>,
+          template      = '<%= j render(comment) %>';
+
+      <% if activity.action == 'create' %>
+        ActivitiesPoller.addComment(commentableId, template)
+      <% elsif activity.action == 'update' %>
+        ActivitiesPoller.updateComment(commentId, commentableId, template)
+      <% end %>
+    <% end %>
+  <% end # if activity.trackable_type == "Comment" %>
+
+  <%# Evidence activities %>
+  <% if activity.trackable_type == 'Evidence' %>
+
+    <%# If this is not a 'destroy' action, 'trackable' may still be nil if  %>
+    <%# the Evidence has been destroyed since the current activity was      %>
+    <%# created - in which case we can't update the links etc in the UI     %>
+    <%# because we don't know enough about the destroyed Evidence. However, %>
+    <%# it doesn't matter because we know a 'destroy' activity must be      %>
+    <%# coming shortly which will remove the links anyway - so we can just  %>
+    <%# skip the current activity. %>
+    <% if activity.action == 'destroy' || activity.trackable.nil? %>
+      ActivitiesPoller.deleteEvidence(<%= activity.trackable_id %>)
+    <%# Whitelist remaining actions instead of using a blanket 'else'       %>
+    <%# statement, as future-proofing in case we add a new action type later %>
+    <% elsif %w[create update].include?(activity.action) %>
+      <% evidence = activity.trackable %>
+      <%# @node must be initialized for the partial to work: %>
+      <% @node    = evidence.node %>
+
+      var nodeId     = <%= @node.id %>;
+          template   = '<%= j render(evidence) %>',
+          evidenceId = <%= evidence.id %>;
+
+      <% if activity.action == 'create' %>
+        ActivitiesPoller.addEvidence(nodeId, template)
+      <% elsif activity.action == 'update' %>
+        ActivitiesPoller.updateEvidence(nodeId, evidenceId, template)
+      <% end %>
+    <% end %>
+  <% end # if activity.trackable_type == "Evidence" %>
+
+
+  <%# Note activities %>
+  <% if activity.trackable_type == 'Note' %>
+
+    <%# See comment above re: activity.trackable.nil? %>
+    <% if activity.action == 'destroy' || activity.trackable.nil? %>
+      ActivitiesPoller.deleteNote(<%= activity.trackable_id %>)
+    <% else %>
+      <% note = activity.trackable %>
+      <%# @node must be initialized for the partial to work: %>
+      <% @node    = note.node %>
+
+      var nodeId   = <%= @node.id %>;
+          template = '<%= j render(note) %>',
+          noteId   = <%= note.id %>;
+
+      <% if activity.action == 'create' %>
+        ActivitiesPoller.addNote(nodeId, template)
+      <% elsif activity.action == 'update' %>
+        ActivitiesPoller.updateNote(nodeId, noteId, template)
+      <% end %>
+    <% end %>
+  <% end # if activity.trackable_type == "Note" %>
+
+
+  <%# Node events %>
+  <% if activity.trackable_type == 'Node' %>
+
+    <%# See comment above re: activity.trackable.nil? %>
+    <% if activity.action == 'destroy' || activity.trackable.nil? %>
+      ActivitiesPoller.deleteNode(<%= activity.trackable_id %>)
+    <% else %>
+      <% node = activity.trackable %>
+
+      <% if activity.action == 'create' %>
+        <% if node.root? %>
+          ActivitiesPoller.addRootNode(
+            "<%=j render 'layouts/tylium/node', node: node %>"
+          )
+        <% else %>
+          ActivitiesPoller.addSubNode(
+            <%= node.parent_id %>,
+            "<%=j render 'layouts/tylium/node', node: node %>"
+          )
+        <% end %>
+      <% end %>
+
+      <% if activity.action == 'update' %>
+        ActivitiesPoller.updateNode(
+          <%= activity.trackable_id %>,
+          "<%=j render('layouts/tylium/node', node: node) %>"
+        );
+      <% end %>
+    <% end %>
+
+  <% end # if activity.trackable_type == "Node" %>
+
+  <%= render 'poll_methodologies', activity: activity %>
+
+<% end %>
+
+ActivitiesPoller.lastPoll = <%= @this_poll %>;
+ActivitiesPoller.poll();

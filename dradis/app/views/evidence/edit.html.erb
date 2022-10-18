@@ -1,0 +1,14 @@
+<% content_for :title, "Edit evidence for #{@node.label} / #{@evidence.issue.title}" %>
+
+<% content_for :breadcrumbs do %>
+  <nav>
+    <%= render partial: 'breadcrumbs' %>
+  </nav>
+<% end %>
+
+<div class="content-container">
+  <h4 class="header-underline">Edit evidence</h4>
+  <div class="note-text-inner">
+    <%= render 'form' %>
+  </div>
+</div>

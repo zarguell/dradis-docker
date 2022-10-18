@@ -1,0 +1,29 @@
+<div class="activity-feed">
+  <% if activities.any? %>
+    <% activities.each do |activity| %>
+      <% present activity do |activity_presenter| %>
+        <%= div_for activity do %>
+          <div class="details">
+            <%= activity_presenter.avatar_with_link(35) %>
+          </div>
+          <div class="body">
+            <div class="title">
+              <%= activity_presenter.render_title %>
+            </div>
+            <div class="time">
+              <%= activity_presenter.created_at_ago %>
+            </div>
+          </div>
+          <%= activity_presenter.icon %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% else %>
+    <%= render 'shared/empty_state',
+      name: 'activity',
+      docs_link: 'https://dradisframework.com/support/guides/projects/activity.html',
+      docs_name: 'the activity feed',
+      text: 'If you have to step away from the project, check the feed to find out what\'s new.'
+    %>
+  <% end %>
+</div>

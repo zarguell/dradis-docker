@@ -1,0 +1,17 @@
+<%#
+  # If there are any children, populate the corresponding part of the tree. If
+  # there are no children, remove the triangle icon from the parent.
+%>
+<% if @children.any? %>
+$("[data-id='<%= dom_id(@node, 'menu') %>']").html("<%= j(render partial: 'layouts/tylium/node', collection: @children) %>");
+<% else %>
+$menu = $("[data-id='<%= dom_id(@node, 'menu') %>']")
+$menu.find('li.error').remove()
+$menu.find('li.loading').remove()
+
+$parent = $menu.parent('li')
+$parent.removeClass('hasSubmenu')
+// Use 'visibility: hidden' rather than .hide() so the surrounding elements
+// don't move.
+$parent.find('.toggle').css({visibility: "hidden"})
+<% end %>

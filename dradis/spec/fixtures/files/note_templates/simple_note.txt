@@ -1,0 +1,11 @@
+#[IPAddress]#
+127.0.0.1
+
+
+
+#[Hostname]#
+
+
+
+#[OS]#
+Linux | OSX | Windows

@@ -1,0 +1,16 @@
+<% content_for :title, 'New task' %>
+
+<%= render partial: 'poller_alerts' %>
+
+<% content_for :breadcrumbs do %>
+  <nav>
+    <%= render partial: 'breadcrumbs' %>
+  </nav>
+<% end %>
+
+<div id="cards_editor" class="content-container">
+  <h4 class="header-underline">Add new task</h4>
+  <div class="note-text-inner"> 
+    <%= render 'form' %>
+  </div>
+</div>

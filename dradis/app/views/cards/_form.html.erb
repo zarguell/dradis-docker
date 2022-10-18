@@ -1,0 +1,55 @@
+<%= simple_form_for [current_project, @board, @list, @card],
+  html: {
+    data: {
+      behavior: 'local-auto-save',
+      auto_save_key: @auto_save_key
+    }
+  } do |f| %>
+
+  <%= f.error_notification %>
+
+  <%= f.input :name, required: false %>
+  <%= f.input :due_date, html5: true, include_blank: true %>
+
+  <%=
+    f.input :description,
+      input_html: {
+        class: 'textile',
+        data: {
+          allow_dropdown: @card.new_record?,
+          behavior: 'rich-toolbar drop-zone',
+          paths: editor_paths,
+          'rich-toolbar': 'block-code bold field image italic link list-ol list-ul table',
+          'rich-toolbar-uploader': '[data-behavior~=jquery-upload]',
+        },
+        label: false,
+        rows: 20
+      }
+  %>
+
+  <%=
+    f.association(
+      :assignees,
+      collection: current_project.authors.sort_by(&:name),
+      label_method: lambda do |user|
+        avatar_image(user, include_name: true, size: 30)
+      end,
+      value_method: :id,
+      as: :check_boxes,
+      item_wrapper_tag: :div,
+      boolean_style: :inline
+    )
+  %>
+
+  <div class="form-actions">
+    <%= f.button :submit, nil, class: 'btn btn-primary' %> or
+    <%=
+      link_to 'Cancel',
+      @card.new_record? ? [current_project, @board] : [current_project, @board, @list, @card],
+      class: 'cancel-link',
+      data: {
+        behavior: 'clear-local-auto-save'
+      }
+    %>
+  </div>
+<% end %>

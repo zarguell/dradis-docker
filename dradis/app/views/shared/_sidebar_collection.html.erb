@@ -1,0 +1,20 @@
+<div class="header">
+  <div class="header-inner">
+    <div class="options">
+      <%= render 'shared/add_item_dropdown',
+        name: name,
+        new_path: new_path,
+        category_id: category_id,
+        menu_class: 'pull-right'
+      %>
+    </div>
+    <h5 class="header-underline header-name"><%= local_assigns[:index_path] ? link_to(name, index_path) : name %></h5>
+  </div>
+</div>
+
+<div id="<%= name.downcase %>" class="note-list collapse show">
+  <% if collection.any? %>
+    <%= render partial: collection.first.to_partial_path, collection: collection %>
+  <% end %>
+  <div class="note placeholder <%= 'd-none' if collection.any? %>">(nothing yet)</div>
+</div>

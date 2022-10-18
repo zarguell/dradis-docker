@@ -1,0 +1,16 @@
+# Select the Framework plugins you want to use. Uncomment to enable, comment to
+# disable.
+#
+# After making changes run the following to update dependencies:
+#   $ bundle
+
+# ----------------------------------------------------------------- Calculators
+
+# ---------------------------------------------------------------------- Export
+# gem 'dradis-json', '~> 4.5.0'
+
+# ---------------------------------------------------------------------- Import
+# gem 'dradis-mediawiki', '~> 4.5.0'
+# gem 'dradis-vulndb', '~> 4.5.0'
+
+# ---------------------------------------------------------------------- Upload

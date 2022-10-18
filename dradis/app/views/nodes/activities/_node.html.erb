@@ -1,0 +1,10 @@
+<% if node %>
+  <%= presenter.verb %> the 
+  <%= link_to node.label, project_node_path(node.project, node) %> node.
+<% else %>
+  <% if activity.action == 'destroy' %>
+    deleted a node.
+  <% else %>
+    <%= presenter.verb %> a node which has since been deleted.
+  <% end %>
+<% end %>

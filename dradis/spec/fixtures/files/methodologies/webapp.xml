@@ -1,0 +1,24 @@
+<methodology>
+  <name>Webapp</name>
+  <sections>
+    <section>
+      <name>Reconnaissance</name>
+      <tasks>
+        <task>Say a little something</task>
+      </tasks>
+    </section>
+    <section>
+      <name>Authentication</name>
+      <tasks>
+        <task>Maximal crazy</task>
+        <task>Miami 2 Ibiza</task>
+      </tasks>
+    </section>
+    <section>
+      <name>With super long name</name>
+      <tasks>
+        <task>123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890</task>
+      </tasks>
+    </section>
+  </section>
+</methodology>

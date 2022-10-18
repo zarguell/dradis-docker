@@ -1,0 +1,84 @@
+<% content_for :title, "#{@record.class.model_name} ##{@record.id} - comparing revisions" %>
+
+<% if @node %>
+  <%= render "nodes/sidebar" %>
+<% end %>
+
+<div class="row m-0">
+  <div class="col-12 col-xl-8 col-xxl-9 p-0">
+    <div class="content-container pb-3 mr-xl-3">
+      <div class="diff">
+        <h4 class="header-underline">
+          <%= @record.class.model_name %>
+          #<%= @record.id %> <span class="text-capitalize"> - view changes at <%= @diffed_revision.updated_at %></span>
+        </h4>
+        <pre class='js-diff-body'><%= @diffed_revision.diff.format_as(:color) %></pre>
+      </div>
+    </div>
+
+    <div id="<%= dom_id(@record) %>_revisions" class="content-container mr-xl-3 revisions-table note-text-inner">
+      <h4 class="header-underline">Revision History</h4>
+
+      <table class="table mb-0">
+        <thead>
+          <tr>
+            <th>Action</th>
+            <th>When</th>
+            <th>By</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @revisions.each do |revision| %>
+            <tr <%= raw "class='active'" if revision == @revision %>>
+              <% present(revision, RevisionPresenter) do |revision_presenter| %>
+                <td><%= revision_presenter.action %></td>
+                <td><%= revision_presenter.created_at_ago %></td>
+                <td><%= revision_presenter.whodunnit %></td>
+                <td>
+                  <% unless revision == @revisions.last %>
+                    <% if revision == @revision %>
+                      Currently Viewing
+                    <% elsif revision.event == "update" %>
+                      <%= link_to "View Changes", record_revision_path(@record, revision) %>
+                    <% end %>
+                  <% end %>
+                </td>
+              <% end %>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="col-12 col-xl-4 col-xxl-3 p-0">
+    <div class="sticky-top">
+
+      <div class="content-container mt-0 mt-xl-3 ml-xl-3">
+        <h4 class="header-underline">Previous revision</h4>
+        <ul>
+          <li><strong>Author:</strong> <%= @diffed_revision.previous_author %></li>
+          <li><strong>Action:</strong> <%= @diffed_revision.previous_action.capitalize %></li>
+          <li><strong>When:</strong> <%= @diffed_revision.last_updated_at %></li>
+        </ul>
+      </div>
+
+      <div class="content-container ml-xl-3">
+        <h4 class="header-underline">This revision</h4>
+        <ul>
+          <li><strong>Author:</strong> <%= @diffed_revision.this_author %></li>
+          <li><strong>Action:</strong> Update</li>
+          <li><strong>When:</strong> <%= @diffed_revision.updated_at %></li>
+        </ul>
+      </div>
+
+      <div class="content-container d-none d-xl-block ml-xl-3">
+         <h4 class="header-underline">Legend</h4>
+        <p><del>removed text</del></p>
+        <p><ins>added text</ins></p>
+      </div>
+
+    </div>
+  </div>
+</div>
