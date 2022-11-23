@@ -1,17 +1,15 @@
 [v#.#.#] ([month] [YYYY])
-  - Notes: remove category selection from form UI.
   - [entity]:
     - [future tense verb] [feature]
   - Upgraded gems:
-    - nokogiri
+    - [gem]
   - Bugs fixes:
     - [entity]:
       - [future tense verb] [bug fix]
     - Bug tracker items:
       - [item]
   - New integrations:
-    - Core Impact
-    - Veracode
+    - [integration]
   - Integration enhancements:
     - [integration]:
       - [future tense verb] [integration enhancement]
@@ -27,6 +25,18 @@
     - High: (Authenticated|Unauthenticated) (admin|author|contributor) [vulnerability description]
     - Medium: (Authenticated|Unauthenticated) (admin|author|contributor) [vulnerability description]
     - Low: (Authenticated|Unauthenticated) (admin|author|contributor) [vulnerability description]
+
+v4.6.0 (November 2022)
+  - Kit Import: allow import of kit with no templates
+  - Notes: remove category selection from form UI.
+  - Rubocop: lint changed files since previous commit
+  - Upgraded gems:
+    - nokogiri
+  - Bugs fixes:
+    - Comments: Align comment header content in Safari
+  - New integrations:
+    - Core Impact
+    - Veracode
 
 v4.5.0 (August 2022)
   - Upgraded Dradis to run on ruby 3.1.2
