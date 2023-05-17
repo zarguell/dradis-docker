@@ -9,7 +9,6 @@ class QA::IssuesController < AuthenticatedController
   before_action :validate_state, only: [:multiple_update, :update]
 
   def index
-    @issues = current_project.issues.ready_for_review
     @all_columns = @default_columns = ['Title']
   end
 
@@ -52,6 +51,10 @@ class QA::IssuesController < AuthenticatedController
 
   def issue_params
     params.permit(:state)
+  end
+
+  def liquid_resource_assigns
+    { 'issue' => IssueDrop.new(@issue) }
   end
 
   def set_issue

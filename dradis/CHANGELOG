@@ -1,10 +1,11 @@
 [v#.#.#] ([month] [YYYY])
+  - Tylium:
+    - Extend support for Liquid Dynamic Content
   - QA: Show state changes in activity feed
   - Upgraded gems:
     - [gem]
   - Bugs fixes:
-    - [entity]:
-      - [future tense verb] [bug fix]
+    - QA: Redirect to correct view when changing states on QA edit views
     - Bug tracker items:
       - [item]
   - New integrations:
