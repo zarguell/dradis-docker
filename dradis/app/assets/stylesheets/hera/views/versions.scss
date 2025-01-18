@@ -1,0 +1,25 @@
+body.revisions {
+  .view-content {
+    .alert {
+      margin-top: 1rem;
+    }
+
+    ul {
+      padding-left: 0;
+      margin-bottom: 0;
+    }
+  }
+}
+
+body.revisions.show {
+  .page-title {
+    display: none;
+  }
+}
+
+body.revisions.trash {
+  .item-content {
+    margin-left: 4px;
+    font-weight: 600;
+  }
+}
